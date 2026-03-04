@@ -158,6 +158,12 @@ export const DEFAULT_PANELS: Record<string, PanelConfig> = {
   heatmap: { name: 'Sector Heatmap', enabled: true, priority: 1 },
   'macro-signals': { name: 'Market Radar', enabled: true, priority: 1 },
   derivatives: { name: 'Derivatives & Options', enabled: true, priority: 2 },
+  // lite panels
+  'market-lite': { name: 'Lite Market', enabled: true, priority: 1 },
+  'iv-lite': { name: 'Implied Volatility (Lite)', enabled: true, priority: 1 },
+  'positions-lite': { name: 'Positions (Lite)', enabled: true, priority: 1 },
+  'news-monitor': { name: 'News Monitor', enabled: true, priority: 2 },
+  'ai-analysis': { name: 'AI Analysis', enabled: true, priority: 2 },
   fintech: { name: 'Fintech & Trading Tech', enabled: true, priority: 2 },
   regulation: { name: 'Financial Regulation', enabled: true, priority: 2 },
   institutional: { name: 'Hedge Funds & PE', enabled: true, priority: 2 },

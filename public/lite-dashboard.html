@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>WorldMonitor Lite Dashboard</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Arial; margin: 12px; }
+      .col { display:flex; gap:12px; }
+      .panel { border:1px solid #ddd; padding:12px; border-radius:6px; background:#fff; width:32%; min-width:280px; }
+      h2 { margin:0 0 8px 0; font-size:16px }
+      table { width:100%; border-collapse: collapse; font-size:13px }
+      th,td { text-align:left; padding:6px; border-bottom:1px solid #eee }
+      .small { font-size:12px; color:#666 }
+      #controls { margin-bottom:12px }
+      button { padding:6px 10px }
+    </style>
+  </head>
+  <body>
+    <h1>WorldMonitor — Lite Dashboard</h1>
+    <div id="controls">
+      <button id="refresh">Refresh All</button>
+      <label class="small">DolphinDB Query (POST):</label>
+      <input id="customQuery" style="width:50%" placeholder='{"symbols":["CL=F","NG=F"]}' />
+      <button id="runQuery">Run POST</button>
+    </div>
+
+    <div class="col">
+      <div class="panel" id="newsPanel"><h2>News Monitor</h2><div id="newsList">Loading…</div></div>
+      <div class="panel" id="marketPanel"><h2>Market Lite</h2><div id="marketSummary">Loading…</div></div>
+      <div class="panel" id="ivPanel"><h2>Implied Volatility</h2><div id="ivSummary">Loading…</div></div>
+    </div>
+
+    <div style="margin-top:12px" class="col">
+      <div class="panel" id="positionsPanel"><h2>Positions</h2><div id="positionsList">Loading…</div></div>
+      <div class="panel" id="aiPanel"><h2>AI Analysis (heuristic)</h2><div id="aiOutput">Loading…</div></div>
+    </div>
+
+    <script src="/lite-dashboard.js"></script>
+  </body>
+</html>

@@ -48,6 +48,12 @@ export const DEFAULT_PANELS: Record<string, PanelConfig> = {
   'etf-flows': { name: 'BTC ETF Tracker', enabled: true, priority: 2 },
   stablecoins: { name: 'Stablecoins', enabled: true, priority: 2 },
   monitors: { name: 'My Monitors', enabled: true, priority: 2 },
+  // lite panels
+  'market-lite': { name: 'Lite Market', enabled: true, priority: 2 },
+  'iv-lite': { name: 'Implied Volatility (Lite)', enabled: true, priority: 2 },
+  'positions-lite': { name: 'Positions (Lite)', enabled: true, priority: 2 },
+  'news-monitor': { name: 'News Monitor', enabled: true, priority: 2 },
+  'ai-analysis': { name: 'AI Analysis', enabled: true, priority: 2 },
 };
 
 // Map layers for geopolitical view

@@ -55,6 +55,40 @@
 
 | Variant             | URL                                                          | Focus                                            |
 | ------------------- | ------------------------------------------------------------ | ------------------------------------------------ |
+
+<!-- lite quickstart added -->
+## Lite Variant Quickstart
+
+This repository also supports a **lightweight monitoring dashboard** aimed at futures/news users. It runs entirely off
+of your own AI and data APIs.
+
+1. **Environment** – create a `.env.local` (or use `.env`) containing:
+   ```
+   DOLPHINDB_API_URL=https://your-dolphindb.example.com
+   DOLPHINDB_API_KEY=optional-key-if-required
+   OPENROUTER_API_KEY=...
+   # or GROQ_API_KEY as a fallback
+   ```
+2. **Install dependencies & start dev server**
+   ```bash
+   npm install
+   npm run dev   # starts Vite on http://localhost:3000
+   ```
+3. **Browse the lite dashboard** – visit `http://localhost:3000/lite-dashboard.html` to see
+   market quotes, IV, positions, news feeds and AI analysis. The same API endpoints
+   (`/api/dolphindb/*` and `/api/ai/analyze_structured`) are available to the full app
+   if you later switch to the main UI.
+4. **Desktop (Tauri)** – with [Tauri installed](https://tauri.app/v1/guides/getting-started/setup), run
+   ```bash
+   npm run tauri dev
+   ```
+   This launches the full application with the lite panels included; the sidecar will
+   proxy requests to your local environment variables and cloud AI key.
+
+You can also run `node scripts/test-dolphindb-query.js` to verify that POST-based queries
+are forwarded properly.
+
+<!-- end lite quickstart -->
 | **World Monitor**   | [worldmonitor.app](https://worldmonitor.app)                 | Geopolitics, military, conflicts, infrastructure |
 | **Tech Monitor**    | [tech.worldmonitor.app](https://tech.worldmonitor.app)       | Startups, AI/ML, cloud, cybersecurity            |
 | **Finance Monitor** | [finance.worldmonitor.app](https://finance.worldmonitor.app) | Global markets, trading, central banks, Gulf FDI |

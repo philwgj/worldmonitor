@@ -39,6 +39,11 @@ import {
   GulfEconomiesPanel,
   WorldClockPanel,
 } from '@/components';
+import { MarketLitePanel } from '@/components/MarketLitePanel';
+import { IVLitePanel } from '@/components/IVLitePanel';
+import { PositionsLitePanel } from '@/components/PositionsLitePanel';
+import { NewsMonitorPanel } from '@/components/NewsMonitorPanel';
+import { AIAnalysisPanel } from '@/components/AIAnalysisPanel';
 import { SatelliteFiresPanel } from '@/components/SatelliteFiresPanel';
 import { PositiveNewsFeedPanel } from '@/components/PositiveNewsFeedPanel';
 import { CountersPanel } from '@/components/CountersPanel';
@@ -457,6 +462,22 @@ export class PanelLayoutManager implements AppModule {
 
     const marketsPanel = new MarketPanel();
     this.ctx.panels['markets'] = marketsPanel;
+
+    // lite panels for dolphinDB data
+    const marketLite = new MarketLitePanel();
+    this.ctx.panels['market-lite'] = marketLite;
+
+    const ivLite = new IVLitePanel();
+    this.ctx.panels['iv-lite'] = ivLite;
+
+    const posLite = new PositionsLitePanel();
+    this.ctx.panels['positions-lite'] = posLite;
+
+    const newsMon = new NewsMonitorPanel();
+    this.ctx.panels['news-monitor'] = newsMon;
+
+    const aiPanel = new AIAnalysisPanel();
+    this.ctx.panels['ai-analysis'] = aiPanel;
 
     const monitorPanel = new MonitorPanel(this.ctx.monitors);
     this.ctx.panels['monitors'] = monitorPanel;
