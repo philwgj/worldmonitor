@@ -137,4 +137,154 @@ DOLPHINDB_API_URL=http://localhost:3000/api/dolphindb/quotes \
 
 ---
 
+## 详细架构
+
+为了便于浏览，我把结构分成 **前端 (UI/逻辑)**、**后端 API**、**数据/脚本**、**测试**、**配置/文档** 等几大类；每一项又列出包含此功能的关键文件或子目录。  
+
+> ⚠️ 由于项目非常庞大，下面只是高层次概览；具体实现可在对应目录里进一步追踪。
+
+---
+
+## 🧠 1. 前端 — 应用框架与客户端逻辑
+
+### • 入口 & 上下文
+
+- main.ts、index.ts —— 启动逻辑
+- app-context.ts —— `AppContext` 状态接口
+- `src/app/bootstrap/`、`event-handlers.ts`、`refresh-scheduler.ts` 等负责初始化、事件、定时刷新
+
+### • 布局与面板管理
+
+- panel-layout.ts —— 面板注册、拖拽、变体切换
+- search-manager.ts、`country-intel.ts` 等辅助模块
+
+### • UI 组件（面板库）
+
+****
+位于 components，包含 ~80 个 TS 文件，每个对应一个功能模块或面板：
+
+```
+AIAnalysisPanel.ts          MarketPanel.ts           UcdpEventsPanel.ts
+NewsPanel.ts                GlobeMap.ts              StrategicRiskPanel.ts
+MapContainer.ts             SatelliteFiresPanel.ts   TelegramIntelPanel.ts
+Reactive “lite” 组件        CountryBriefPage.ts      + …  具体见目录列举
+```
+
+其中可分子模块：
+
+- **情报 & 新闻**：`NewsPanel`, `GdeltIntelPanel`, `LiveNewsPanel`, `PositiveNewsFeedPanel`…
+- **市场 & 经济**：`MarketPanel`, `MacroSignalsPanel`, `CommoditiesPanel`, `CryptoPanel`…
+- **地图/地理**：`Map.ts`, `DeckGLMap.ts`, `GlobeMap.ts`, `MapPopup.ts`
+- **地区/专题**：`CIIPanel`（国家不稳定指数）、`Conflicts`、`InvestmentsPanel`、`GulfEconomiesPanel`…
+- **“快乐”变体**：`GoodThingsDigestPanel.ts`, `HeroSpotlightPanel.ts` 等
+- **共享组件**：`Panel.ts`, `SearchModal.ts`, `VirtualList.ts`, `UnifiedSettings.ts` 等
+
+### • 地图引擎与图层
+
+- map-layer-definitions.ts（图层目录/元数据）
+- globe-render-settings.ts、`map-layer-*` 服务
+- DeckGLMap.ts + `GlobeMap.ts` 实现 flat/globe 双引擎
+- 支持 45+ 数据层、区域预设、时区检测、URL 状态、触摸手势等
+
+### • 本地化 & 文本
+
+- locales — 21 个语言包
+- i18n.ts 管理翻译函数
+- RTL 支持在样式与布局中体现
+
+### • AI 与智能服务
+
+- `src/services/ai/` —— 包括摘要、翻译、Headline‑Memory、推理等
+- `src/services/news‑context.ts`、`military‑surge.ts`、`investments‑focus.ts` 等
+- 致力于本地 LLM（Ollama/LM‑Studio）与云备选
+
+### • 配置与常量
+
+- config（`feeds.ts`、`intel-sources.ts`、`defaults.ts` 等）
+- `schema.ts`、`registerInterest.ts` 为类型/注册
+- types 提供 TypeScript 类型定义
+
+### • 通用工具
+
+- utils 包括网络、缓存、DOM、日期格式、sanitizer 等
+- workers 如 headline‑memory 嵌入处理
+
+### • 桌面（Tauri）与 PWA 支持
+
+- desktop-updater.ts、`src/src-tauri/` 相关代码
+- `src/app/settings-main.ts` 等窗口间通信
+
+---
+
+## 🔌 2. 后端/API 层
+
+位于项目根 api，每个 JS/TS 文件映射一个 HTTP 端点：
+
+```
+api/_cors.js            api/og-story.js      api/register-interest.js
+api/ai/…                api/opensky.js       api/telegram-feed.js
+api/geo.js              api/ais-snapshot.js  api/loaders-xml-wms-regression.test.mjs
+```
+
+- 公共中间件：`_cors.js`, `_rate-limit.js`, `_relay.js`
+- 数据抓取与代理：`download.js`, `cache-purge.js`, `og-story.js`, `seed-health.js`…
+- 智能/AI：ai 子目录，服务摘要、翻译、向量查询等
+- 单元/集成测试：例如 _cors.test.mjs, `og-story.test.mjs`
+- api 还含有各类异步 loader 和热点转发
+
+### • Proto/类型合同
+
+- proto 存放 Buf 定义，22 个服务契约有自动生成的客户端和 OpenAPI 文档
+- `generated/` 目录承载代码生成输出（TypeScript 客户端）
+
+---
+
+## 📦 3. 数据 & 静态资源
+
+- data：静态 JSON 文件，如 `gamma-irradiators.json`, `telegram-channels.json`
+- public：前端静态资源（地图纹理、图标、HTML 示例、PWA manifest）
+- scripts：辅助脚本（例如 `test-dolphindb-query.js` 等）
+
+---
+
+## 🧪 4. 测试
+
+- E2E：e2e 包含 Playwright 规范（`*.spec.ts`）
+- 单元：`api/*` 测试和前端目录中偶见测试脚本
+- playwright.config.ts、tsconfig.json 为测试环境配置
+
+---
+
+## ⚙️ 5. 构建 & 配置
+
+- TypeScript configs：tsconfig.json, tsconfig.api.json, `tsconfig.*`  
+- 打包/运行脚本：vite.config.ts, Makefile, package.json, vercel.json
+- 环境/变体控制：railpack.json, `live‑channels.html`, `playground‑settings‑*.html`
+
+---
+
+## 📚 6. 文档 & 其他
+
+- docs：使用指南、部署文档、API 文档、社区推广、桌面配置等
+- 根目录含 `README*`, `CHANGELOG*`, CONTRIBUTING.md, SECURITY.md…
+
+---
+
+### 🧩 小结
+
+这个仓库是一套**跨平台情报仪表盘**，核心功能模块包括：
+
+1. **地图引擎**（3D Globe / Deck.gl 平面）
+2. **情报面板集合**（新闻、冲突、市场、投资、天气等 45+ 层）
+3. **AI 智能服务**（摘要、预测、RAG、热点检测）
+4. **多语言与本地化**（21 种语言+RTL）
+5. **桌面应用**（Tauri + PWA）
+6. **后台 API 与数据代理**（Node/Cloud Functions）
+7. **配置、类型合同与文档**（proto、config 文件、docs）
+
+每个模块在仓库中都有明确的目录和文件支撑，上述结构可作为理解与导航的“思维导图”。
+
+> 💡 若需更细粒度的模块图，建议结合 README 中各功能节标题与 components 目录做进一步映射。
+---
+
 以上为完整中文版 README，可根据项目发展增补更多内容。欢迎复制到其他语言或作为内部文档使用。
