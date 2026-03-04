@@ -476,8 +476,8 @@ export class PanelLayoutManager implements AppModule {
     const newsMon = new NewsMonitorPanel();
     this.ctx.panels['news-monitor'] = newsMon;
 
-    const aiPanel = new AIAnalysisPanel();
-    this.ctx.panels['ai-analysis'] = aiPanel;
+    const aiAnalysisPanel = new AIAnalysisPanel();
+    this.ctx.panels['ai-analysis'] = aiAnalysisPanel;
 
     const monitorPanel = new MonitorPanel(this.ctx.monitors);
     this.ctx.panels['monitors'] = monitorPanel;
@@ -516,10 +516,10 @@ export class PanelLayoutManager implements AppModule {
     this.ctx.newsPanels['layoffs'] = layoffsPanel;
     this.ctx.panels['layoffs'] = layoffsPanel;
 
-    const aiPanel = new NewsPanel('ai', t('panels.ai'));
-    this.attachRelatedAssetHandlers(aiPanel);
-    this.ctx.newsPanels['ai'] = aiPanel;
-    this.ctx.panels['ai'] = aiPanel;
+    const aiNewsPanel = new NewsPanel('ai', t('panels.ai'));
+    this.attachRelatedAssetHandlers(aiNewsPanel);
+    this.ctx.newsPanels['ai'] = aiNewsPanel;
+    this.ctx.panels['ai'] = aiNewsPanel;
 
     const startupsPanel = new NewsPanel('startups', t('panels.startups'));
     this.attachRelatedAssetHandlers(startupsPanel);
